@@ -8,4 +8,5 @@
     
 <h2>Link to download the APK of version 1.0, you can also find it in release on the right side</h2>
 <a href="https://github.com/santy0214/GoogleFitTechnicalTest/releases/tag/v1.0" target="_blank">https://github.com/santy0214/GoogleFitTechnicalTest/releases/tag/v1.0</a> 
+<br>
 ![Screenshot1](https://github.com/santy0214/GoogleFitTechnicalTest/assets/61173810/989ece57-c968-4aa3-831d-10f092a7fd8a)
