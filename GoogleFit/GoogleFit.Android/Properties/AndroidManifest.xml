@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.googlefit" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="34" />
+	<application android:label="GoogleFit.Android" android:theme="@style/MainTheme" android:icon="@mipmap/icon">
+		<activity android:label="ViewRedirectUrlInterceptor" android:exported="true" android:launchMode="singleTop" android:noHistory="true" android:name="crc6451551fe891074053.ViewRedirectUrlInterceptor">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:path="/oauth2redirect" />
+				<data android:scheme="com.companyname.googlefit" />
+			</intent-filter>
+		</activity>
+	</application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+</manifest>
