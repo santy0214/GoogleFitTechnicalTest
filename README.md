@@ -5,3 +5,6 @@
 <b>Note:</b> Due to Github policies, I had to remove the ClientID and the SecretID, so I am going to leave them here, they must be put in the Globales.cs Class:<br>
     - ClientID <br><b>public static string clientId = "680415986169-250mk9kv1erqr1k94cb2i8bvu3lnfolr.apps.googleusercontent.com";</b><br><br>
     - SecretID <br><b>public static string clientSecret = "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";</b><br><br>
+    
+<h2>Link to download the APK of version 1.0, you can also find it in release on the right side</h2>
+<a href="https://github.com/santy0214/GoogleFitTechnicalTest/releases/tag/v1.0" target="_blank">https://github.com/santy0214/GoogleFitTechnicalTest/releases/tag/v1.0</a> 
