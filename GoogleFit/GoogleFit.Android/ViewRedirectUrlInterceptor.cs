@@ -42,8 +42,12 @@ namespace GoogleFit.Droid
             base.OnCreate(savedInstanceState);
             CustomTabsConfiguration.CustomTabsClosingMessage = null;
             global::Android.Net.Uri uri_android = Intent.Data;
-            Uri uri_netfx = new Uri(uri_android.ToString());
-            MainActivity.authenticator.OnPageLoading(uri_netfx);
+            if(uri_android != null)
+            {
+                Uri uri_netfx = new Uri(uri_android.ToString());
+                MainActivity.authenticator.OnPageLoading(uri_netfx);
+            }
+          
             var intent = new Intent(this, typeof(MainActivity));
             intent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
             StartActivity(intent);

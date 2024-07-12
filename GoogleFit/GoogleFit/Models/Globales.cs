@@ -8,8 +8,9 @@ namespace GoogleFit.Models
     {
         //OAuth 2.0 setup for Google Fit
 
-        public static string clientId = null;
-        public static string clientSecret = null;
+        public static string clientIdWeb = ""; 
+        public static string clientId = "";
+        public static string clientSecret = "";
 
         public static string GoogleFitApiUrl = "https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate";
 
@@ -19,7 +20,10 @@ namespace GoogleFit.Models
         public static string authorizeURL = "https://accounts.google.com/o/oauth2/auth";
         public static string accessTokenURL = "https://oauth2.googleapis.com/token";
 
-
+        public static string pasos = "";
+        public static string heartRate = "";
+        public static string calories = "";
+        public static string minutes = "";
         public static string responseType = "code";
 
         public static string Token;

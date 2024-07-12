@@ -17,6 +17,8 @@ namespace GoogleFit
             MainPage = new AppShell();
 
 
+
+
         }
 
         protected override void OnStart()

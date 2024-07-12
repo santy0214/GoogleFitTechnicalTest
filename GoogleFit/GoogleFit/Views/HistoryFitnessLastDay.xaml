@@ -2,25 +2,67 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GoogleFit.Views.HistoryFitnessLastDay"
+                   xmlns:dxc="http://schemas.devexpress.com/xamarin/2014/forms/charts"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:GoogleFit.Models"
              xmlns:vm="clr-namespace:GoogleFit.ViewModels"
              Title="{Binding Title}">
     
     <ContentPage.BindingContext>
         <vm:AboutViewModel />
     </ContentPage.BindingContext>
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Accent">#96d1ff</Color>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid>
+
+  
+
+        <Grid >
+
+        <Grid BackgroundColor="Aquamarine">
+            <!-- Definimos las filas -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!-- Definimos las columnas -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.25*" />
+                <ColumnDefinition Width="0.75*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Primera fila -->
+            <Label Grid.Row="0" Grid.Column="0" Text="Label Lado Izquierdo" />
+            <Label Grid.Row="0" Grid.Column="1" Text="Label Lado Derecho" />
+
+            <!-- Segunda fila -->
+            <Label Grid.Row="1" Grid.Column="0" Text="Label Lado Izquierdo 2" />
+            <Label Grid.Row="1" Grid.Column="1" Text="Label Lado Derecho" />
+
+
+            <!-- Tercera fila -->
+            <Label Grid.Row="2" Grid.Column="0" Text="Label Lado Izquierdo 3" />
+            <Label Grid.Row="2" Grid.Column="1" Text="Label Lado Derecho" />
+
+
+            <!-- Cuarta fila -->
+            <Label Grid.Row="3" Grid.Column="0" Text="Label Lado Izquierdo 4" />
+            <Label Grid.Row="3" Grid.Column="1" Text="Label Lado Derecho" />
+
+        </Grid>
+
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+        <StackLayout  VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
                 <ContentView Padding="0,40,0,40" VerticalOptions="FillAndExpand">
                     <Image Source="xamarin_logo.png" VerticalOptions="Center" HeightRequest="64" />
@@ -28,9 +70,153 @@
             </StackLayout>
         </StackLayout>
         <ScrollView Grid.Row="1">
-            <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
+            
+            
+            
+            
+            <StackLayout Orientation="Vertical" Padding="10,10,10,10" Spacing="10">
 
-                <Label x:Name="LabelPasosTotales" Text="{Binding TextLabel}"     Margin="10,53,10,0"   VerticalTextAlignment="Top" FontSize="24"    TextColor="Black"/>
+
+                <dxc:ChartView WidthRequest="300" HeightRequest="300" Margin="20"> 
+                    <dxc:ChartView.Series>
+                        <dxc:SplineSeries LegendTextPattern="{}{CLV}°C — {CHV}°C">
+                            <dxc:SplineSeries.Data>
+                                <dxc:SeriesDataAdapter DataSource="{Binding Data}" ArgumentDataMember="Argument">
+                                    <dxc:ValueDataMember Member="Value" Type="Value"/>
+                                </dxc:SeriesDataAdapter>
+                            </dxc:SplineSeries.Data>
+                            <dxc:SplineSeries.SegmentColorizer>
+                                <dxc:GradientPointBasedSegmentColorizer>
+                                    <dxc:GradientPointBasedSegmentColorizer.PointColorizer>
+                                        <dxc:ValueBandPointColorizer>
+                                            <dxc:ValueBandPointColorizer.ColorStops>
+                                                <dxc:ColorStop  Color="#00008b" Value1="-40" Value2="-30"/>
+                                                <dxc:ColorStop Color="#222b9d" Value1="-30" Value2="-20"/>
+                                                <dxc:ColorStop Color="#4556af" Value1="-20" Value2="-15"/>
+                                                <dxc:ColorStop Color="#6781c1" Value1="-15" Value2="-10"/>
+                                                <dxc:ColorStop Color="#8aacd3" Value1="-10" Value2="-5"/>
+                                                <dxc:ColorStop Color="#add8e6" Value1="-5" Value2="0"/>
+                                                <dxc:ColorStop Color="#bdbab8" Value1="0" Value2="5"/>
+                                                <dxc:ColorStop Color="#cd9d8a" Value1="5" Value2="10"/>
+                                                <dxc:ColorStop Color="#de7f5b" Value1="10" Value2="15"/>
+                                                <dxc:ColorStop Color="#ee622d" Value1="15" Value2="20"/>
+                                                <dxc:ColorStop Color="#ff4500" Value1="20" Value2="30"/>
+                                            </dxc:ValueBandPointColorizer.ColorStops>
+                                        </dxc:ValueBandPointColorizer>
+                                    </dxc:GradientPointBasedSegmentColorizer.PointColorizer>
+                                </dxc:GradientPointBasedSegmentColorizer>
+                            </dxc:SplineSeries.SegmentColorizer>
+                        </dxc:SplineSeries>
+                    </dxc:ChartView.Series>
+                    <dxc:ChartView.Legend>
+                        <dxc:Legend Orientation="TopToBottom"
+       HorizontalPosition="RightOutside"
+       VerticalPosition="Center"/>
+                    </dxc:ChartView.Legend>
+                    <dxc:ChartView.AxisX>
+                        <dxc:DateTimeAxisX>
+                            <dxc:DateTimeAxisX.Label>
+                                <dxc:AxisLabel TextFormat="MMM"/>
+                            </dxc:DateTimeAxisX.Label>
+                        </dxc:DateTimeAxisX>
+                    </dxc:ChartView.AxisX>
+                </dxc:ChartView>
+
+
+                <Frame BorderColor="Black" CornerRadius="0" Padding="0" HasShadow="True">
+                    <dxc:ChartView WidthRequest="300" HeightRequest="300" Margin="0">
+                        <dxc:ChartView.ChartStyle>
+                            <dxc:ChartStyle Palette="{Binding Palette}"
+                            BackgroundColor="#bcebf7"
+                            Padding="0, 0, 0, 0"
+                            BorderColor="#800404"
+                            BorderThickness="10">
+                                
+                            </dxc:ChartStyle>
+                        </dxc:ChartView.ChartStyle>
+                        <dxc:ChartView.Series>
+                            <dxc:LineSeries DisplayName="{Binding GdpValueForUSA.CountryName}"
+                                        MarkersVisible="True">
+                                <dxc:LineSeries.Style>
+                                    <dxc:LineSeriesStyle Stroke="Crimson" StrokeThickness="2" MarkerSize="8">
+                                        <dxc:LineSeriesStyle.MarkerStyle>
+                                            <dxc:MarkerStyle Fill="Crimson">
+
+                                            </dxc:MarkerStyle>
+                                        </dxc:LineSeriesStyle.MarkerStyle>
+                                    </dxc:LineSeriesStyle>
+                                </dxc:LineSeries.Style>
+                                <!-- Agregar etiquetas a los puntos -->
+                                <dxc:LineSeries.Label>
+                                    <dxc:MarkerSeriesLabel Angle="45" 
+                               Indent="15" 
+                               TextPattern="{}{V$##}">
+                                        <dxc:MarkerSeriesLabel.Style>
+                                            <dxc:SeriesLabelStyle>
+                                                <dxc:SeriesLabelStyle.TextStyle>
+                                                    <dxc:TextStyle Color="DarkBlue" Size="10"/>
+                                                </dxc:SeriesLabelStyle.TextStyle>
+                                            </dxc:SeriesLabelStyle>
+                                        </dxc:MarkerSeriesLabel.Style>
+                                    </dxc:MarkerSeriesLabel>
+                                </dxc:LineSeries.Label>
+                                <dxc:LineSeries.Data>
+                                    <dxc:SeriesDataAdapter DataSource="{Binding GdpValueForUSA.Values}"
+                                     ArgumentDataMember="Year">
+                                        <dxc:ValueDataMember Type="Value" Member="Value"/>
+                                    </dxc:SeriesDataAdapter>
+                                </dxc:LineSeries.Data>
+                                <dxc:LineSeries.HintOptions>
+                                    <dxc:SeriesCrosshairOptions PointTextPattern="{}{S}: {V}">
+                                    </dxc:SeriesCrosshairOptions>
+                                </dxc:LineSeries.HintOptions>
+                            </dxc:LineSeries>
+
+
+                        </dxc:ChartView.Series>
+
+                        
+
+
+                        <dxc:ChartView.Legend>
+                            <dxc:Legend VerticalPosition="TopOutside" 
+                                  HorizontalPosition="Center" 
+                                  Orientation="LeftToRight"/>
+                        </dxc:ChartView.Legend>
+
+                        <dxc:ChartView.AxisY>
+                            <dxc:NumericAxisY>
+                                <dxc:NumericAxisY.Title>
+                                    <dxc:AxisTitle Text="Steps">
+                                        <dxc:AxisTitle.Style>
+                                            <dxc:TitleStyle>
+                                                <dxc:TitleStyle.TextStyle>
+                                                    <dxc:TextStyle Size="16"/>
+                                                </dxc:TitleStyle.TextStyle>
+                                            </dxc:TitleStyle>
+                                        </dxc:AxisTitle.Style>
+                                    </dxc:AxisTitle>
+                                </dxc:NumericAxisY.Title>
+                                <dxc:NumericAxisY.Label>
+                                    <dxc:AxisLabel TextFormat="#.#" Position="Inside"/>
+                                </dxc:NumericAxisY.Label>
+                            </dxc:NumericAxisY>
+                        </dxc:ChartView.AxisY>
+
+                        <dxc:ChartView.Hint>
+                            <dxc:Hint>
+                                <dxc:Hint.Behavior>
+                                    <dxc:TooltipHintBehavior ShowPointTooltip="True" ShowSeriesTooltip="True"/>
+
+                                </dxc:Hint.Behavior>
+                            </dxc:Hint>
+                        </dxc:ChartView.Hint>
+
+                    </dxc:ChartView>
+                </Frame>
+
+
+                <Label x:Name="LabelPasosTotales" Text="{Binding TextLabel}"     Margin="10,53,10,0"   VerticalTextAlignment="Top" FontSize="18"    TextColor="Black"/>
 
                 <Button Margin="0,10,0,0" Text="Load fitness information"
                         Command="{Binding OpenWebCommand}"

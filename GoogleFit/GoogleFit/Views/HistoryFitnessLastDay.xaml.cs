@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GoogleFit.Models;
+using System;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -9,6 +10,10 @@ namespace GoogleFit.Views
     {
         public HistoryFitnessLastDay()
         {
+
+            DevExpress.XamarinForms.Charts.Initializer.Init();
+            BindingContext = new ChartViewModel();
+
             InitializeComponent();
         }
     }

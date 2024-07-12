@@ -1,4 +1,4 @@
-﻿using Android.Content;
+﻿
 using Google.Apis.Fitness.v1.Data;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,8 @@ namespace GoogleFit.Services
 {
     public interface IFitnessManager
     {
+        void NewConnectGoogleFit();
+        void Inicialize(object activity);
         OAuth2Authenticator Initialize();
 
         void AuthorizeOauhtGoogleFit(OAuth2Authenticator authenticator);

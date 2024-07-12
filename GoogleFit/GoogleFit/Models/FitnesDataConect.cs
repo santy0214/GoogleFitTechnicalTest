@@ -3,7 +3,6 @@ using Google.Apis.Fitness.v1;
 using Google.Apis.Fitness.v1.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
-using Java.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,11 +14,8 @@ using Google.Apis.Auth.OAuth2.Flows;
 using Xamarin.Auth;
 using Xamarin.Essentials;
 using System.Text;
-using Android.Content;
-using Java.Net;
 using static Google.Apis.Fitness.v1.FitnessService;
 using GoogleFit.Services;
-
 
 namespace GoogleFit.Models
 {
@@ -33,7 +29,6 @@ namespace GoogleFit.Models
             authenticator.AllowCancel = true;
             authenticator.ShowErrors = false;
             authenticator.ClearCookiesBeforeLogin = true;
-
 
             authenticator.Completed += async (sender, args) =>
             {
@@ -69,23 +64,44 @@ namespace GoogleFit.Models
         }
 
 
-        public OAuth2Authenticator Initialize()
+        public OAuth2Authenticator Initialize(object activity)
         {
             OAuth2Authenticator authenticator;
-            string url = $"{Globales.authorizeURL}?client_id={Uri.EscapeDataString(Globales.clientId)}&access_type=offline&prompt=select_account&include_granted_scopes=true&";
+            string url = $"{Globales.authorizeURL}?client_id={Uri.EscapeDataString(Globales.clientId)}&access_type=offline&prompt=consent&include_granted_scopes=true&";
 
             authenticator = new OAuth2Authenticator(
-                Globales.clientId,
-                null,
-                Globales.scope,
-                new Uri(url),
-                new Uri(Globales.redirectUri),
-                new Uri(Globales.accessTokenURL),
-                null,
-                true);
+                clientId: Globales.clientId,
+                clientSecret: null,
+                scope: Globales.scope,
+                authorizeUrl: new Uri(url),
+                redirectUrl: new Uri(Globales.redirectUri),
+                accessTokenUrl: new Uri(Globales.accessTokenURL),
+                isUsingNativeUI: false);
+            // Crear un PendingIntent con FLAG_IMMUTABLE
+
 
             return authenticator;
 
+        }
+
+        public void Inicialize()
+        {
+            
+
+        }
+
+        public void Inicialize(object activity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public OAuth2Authenticator Initialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NewConnectGoogleFit()
+        {
         }
     }
 }

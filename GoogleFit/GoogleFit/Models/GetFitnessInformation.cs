@@ -12,6 +12,9 @@ using Google.Apis.Fitness.v1;
 using Google.Apis.Services;
 using Newtonsoft.Json.Linq;
 using GoogleFit.Models;
+using Google.Apis.Auth.OAuth2.Responses;
+using Newtonsoft.Json;
+using Google.Apis.Fitness.v1.Data;
 
 namespace GoogleFit.Droid
 {
@@ -29,7 +32,7 @@ namespace GoogleFit.Droid
         {
             try
             {
-                var steps = await GetDataForDataType("com.google.step_count.delta", "merge_step_deltas", "intVal");
+                var steps = await GetDataForDataType("com.google.step_count.delta", "estimated_steps", "intVal");
                 return (int)steps;
             }
             catch (Exception ex)
@@ -79,10 +82,11 @@ namespace GoogleFit.Droid
 
         private async Task<double> GetDataForDataType(string dataTypeName, string type, string field)
         {
+
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _accessToken);
-                var startTimeMillis = new DateTimeOffset(DateTime.UtcNow.Date.AddDays(-1)).ToUnixTimeMilliseconds();
+                var startTimeMillis = new DateTimeOffset(DateTime.Today.AddDays(-1)).ToUnixTimeMilliseconds();
                 var endTimeMillis = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
 
                 var requestData = new
@@ -94,10 +98,6 @@ namespace GoogleFit.Droid
                             dataTypeName = dataTypeName,
                             dataSourceId = "derived:" + dataTypeName + ":com.google.android.gms:" + type
                         }
-                    },
-                    bucketByTime = new
-                    {
-                        durationMillis = 86400000
                     },
                     startTimeMillis = startTimeMillis,
                     endTimeMillis = endTimeMillis
@@ -125,13 +125,14 @@ namespace GoogleFit.Droid
                             return (double)value;
                         }
                     }
-                } else
-                {
-                    Preferences.Remove("GoogleFitAccessToken", string.Empty);
-                    Preferences.Remove("GoogleFitRefreshToken", string.Empty);
-                    Globales.notConnect = false;
                 }
-               
+                else
+                {
+                    //Preferences.Remove("GoogleFitAccessToken", string.Empty);
+                    //Preferences.Remove("GoogleFitRefreshToken", string.Empty);
+                    //Globales.notConnect = false;
+                }
+
                 return 0;
             }
         }
