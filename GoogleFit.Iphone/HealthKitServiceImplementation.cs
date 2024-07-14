@@ -27,10 +27,10 @@ namespace GoogleFit.Iphone
 
         public void WriteStepCount(double steps, Action<bool, string> completion)
         {
-            healthKitService.WriteStepCount(steps, (success, error) =>
-            {
-                completion(success, error?.LocalizedDescription);
-            });
+            //healthKitService.WriteStepCount(steps, (success, error) =>
+            //{
+            //    completion(success, error?.LocalizedDescription);
+            //});
         }
     }
 }

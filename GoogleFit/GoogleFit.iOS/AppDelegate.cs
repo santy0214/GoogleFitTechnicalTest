@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Foundation;
 using GoogleFit.Iphone;
+using Foundation;
 using HealthKit;
 using UIKit;
 using Xamarin.Forms;
@@ -41,69 +40,110 @@ namespace GoogleFit.iOS
             }
         }
 
+        [Export("window")]
+        public UIWindow Window { get; set; }
+
+        [Export("application:didFinishLaunchingWithOptions:")]
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+
             global::Xamarin.Forms.Forms.Init();
 
 
-           string paquete = NSBundle.MainBundle.BundleIdentifier;
+            var read = new NSSet(HKQuantityType.Create(HKQuantityTypeIdentifier.HeartRate));
 
-
-            // Initialize the HealthKit store
-            healthKitStore = new HKHealthStore();
-
-            //Request / Validate that the app has permission to store heart-rate data
-            var heartRateId = HKQuantityTypeIdentifierKey.HeartRate;
-            var heartRateType = HKObjectType.GetQuantityType(heartRateId);
-            var typesToWrite = new NSSet(new[] { heartRateType });
-            //We aren't reading any data for this sample
-            var typesToRead = new NSSet();
-            healthKitStore.RequestAuthorizationToShare(
-                typesToWrite,
-                typesToRead,
-                ReactToHealthCarePermissions);
-
-            var healthKitService = DependencyService.Get<IHealthKitService>();
-
-            healthKitService.RequestAuthorization((success, error) =>
-            {
-                if (success)
+            var healthstore = new HKHealthStore();
+            healthstore.RequestAuthorizationToShare(new NSSet(), read, (f, error) => {
+                if (error != null)
                 {
-                    Console.WriteLine("Authorization successful");
-                }
-                else
+                    Console.WriteLine(@"{0} error", error);
+                } else
                 {
-                    Console.WriteLine($"Authorization failed: {error}");
+
+                    string paquete = NSBundle.MainBundle.BundleIdentifier;
+
+
+                    // Initialize the HealthKit store
+                    healthKitStore = new HKHealthStore();
+
+                    //Request / Validate that the app has permission to store heart-rate data
+                    var heartRateId = HKQuantityTypeIdentifierKey.HeartRate;
+                    var heartRateType = HKObjectType.GetQuantityType(heartRateId);
+                    var typesToWrite = new NSSet(new[] { heartRateType });
+                    //We aren't reading any data for this sample
+                    var typesToRead = new NSSet();
+                    healthKitStore.RequestAuthorizationToShare(
+                        typesToWrite,
+                        typesToRead,
+                        ReactToHealthCarePermissions);
+
+                    var healthKitService = DependencyService.Get<IHealthKitService>();
+
+                    healthKitService.RequestAuthorization((success, error1) =>
+                    {
+                        if (success)
+                        {
+                            Console.WriteLine("Authorization successful");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Authorization failed: {error1}");
+                        }
+                    });
+
+                    healthKitService.ReadStepCount((steps, error1) =>
+                    {
+                        if (string.IsNullOrEmpty(error1))
+                        {
+                            Console.WriteLine($"Steps: {steps}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Error reading steps: {error1}");
+                        }
+                    });
+
+                    healthKitService.WriteStepCount(3500, (success, error1) =>
+                    {
+                        if (success)
+                        {
+                            Console.WriteLine("Successfully saved step count");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Error saving step count: {error1}");
+                        }
+                    });
+
+                    LoadApplication(new App());
+
+                    base.FinishedLaunching(app, options);
                 }
+      
+
+
+
+
             });
 
-            healthKitService.ReadStepCount((steps, error) =>
-            {
-                if (string.IsNullOrEmpty(error))
-                {
-                    Console.WriteLine($"Steps: {steps}");
-                }
-                else
-                {
-                    Console.WriteLine($"Error reading steps: {error}");
-                }
-            });
+            return true;
 
-            healthKitService.WriteStepCount(1000, (success, error) =>
-            {
-                if (success)
-                {
-                    Console.WriteLine("Successfully saved step count");
-                }
-                else
-                {
-                    Console.WriteLine($"Error saving step count: {error}");
-                }
-            });
+        }
 
-            LoadApplication(new App());
+        [Export("application:configurationForConnectingSceneSession:options:")]
+        public UISceneConfiguration GetConfiguration(UIApplication application, UISceneSession connectingSceneSession, UISceneConnectionOptions options)
+        {
+            // Called when a new scene session is being created.
+            // Use this method to select a configuration to create the new scene with.
+            return UISceneConfiguration.Create("Default Configuration", connectingSceneSession.Role);
+        }
 
-            return base.FinishedLaunching(app, options);
+        [Export("application:didDiscardSceneSessions:")]
+        public void DidDiscardSceneSessions(UIApplication application, NSSet<UISceneSession> sceneSessions)
+        {
+            // Called when the user discards a scene session.
+            // If any sessions were discarded while the application was not running, this will be called shortly after `FinishedLaunching`.
+            // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
         }
     }
 }

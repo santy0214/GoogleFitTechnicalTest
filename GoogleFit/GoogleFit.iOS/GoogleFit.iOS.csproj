@@ -33,6 +33,7 @@
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
     <CodesignKey>Apple Development: Created via API (FAM3ZNVCX6)</CodesignKey>
     <CodesignProvision>VS: com.companyname.GoogleFit Development</CodesignProvision>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -58,7 +59,9 @@
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
     <CodesignProvision>VS: com.companyname.GoogleFit Development</CodesignProvision>
-    <CodesignResourceRules>Entitlements.plist</CodesignResourceRules>
+    <CodesignResourceRules>
+    </CodesignResourceRules>
+    <BuildIpa>false</BuildIpa>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -76,9 +79,15 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="SceneDelegate.cs" />
+    <Compile Include="ViewController.cs" />
+    <Compile Include="ViewController.designer.cs">
+      <DependentUpon>ViewController.cs</DependentUpon>
+    </Compile>
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
